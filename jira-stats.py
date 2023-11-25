@@ -8,6 +8,8 @@ from jsparams.fields import Fields
 
 from jsconfig.configuration import Configuration
 
+from jsjiras.ticket import Ticket
+
 
 conf = Configuration('production')
 
@@ -23,22 +25,24 @@ jsFields = Fields()
 #print(str(args.issues))
 #print(type(args.issues))
 
-for x in jsIssues.issues:
-	print(x)
+#for x in jsIssues.issues:
+#	print(x)
 
-print('command: ' + jsCommand.command)
+#print('command: ' + jsCommand.command)
 
 if jsCommand.command == 'info':
 	for issueId in jsIssues.issues:
-		issue = jira.issue(issueId)
-		print('Issue: ' + str(issue.key))
+		ticket = Ticket(jira.issue(issueId))
+		#issue = jira.issue(issueId)
+		print('Issue: ' + ticket.key)
 		for f in jsFields.fields:
-			if f == 'status':
-				print('\t' + f + ': ' + issue.fields.status.name)
-			if f == 'issuetype':
-				print('\t' + f + ': ' + issue.fields.issuetype.name)
-			if f == 'summary':
-				print('\t' + f + ': ' + issue.fields.summary)
+			print ('\t' + f + ': ' + str(getattr(ticket, f)))
+			#if f == 'status':
+			#	print('\t' + f + ': ' + issue.fields.status.name)
+			#if f == 'issuetype':
+			#	print('\t' + f + ': ' + issue.fields.issuetype.name)
+			#if f == 'summary':
+			#	print('\t' + f + ': ' + issue.fields.summary)
 
 #issue = jira.issue(args.issue)
 
